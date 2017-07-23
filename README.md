@@ -1,5 +1,6 @@
 ogn-init
 ========
+[![Build Status](https://travis-ci.org/matburnham/ogn-init.svg?branch=master)](https://travis-ci.org/matburnham/ogn-init)
 
 Purpose
 -------
