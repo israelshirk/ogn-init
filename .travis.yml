@@ -9,8 +9,8 @@ deploy:
   provider: releases
   api_key:
     secure: XEkkC8DdgwZ7cYbo79v2a9KNLtCgJsOtZQXlly18aJvDXQLhj2TmTnd4wphj+iAG8fvLO/ctaqpolbmtQnXXAhVya2+Ky6ppcvLAjUx6py3isu70QzD6dAXcSdTVd8ajC4NNZ60h3DIX6qJR1U87UBhnVrYzOnJVqk2rdhkAkoX9F2tncaTCkqClegVK2eSjAR3YMkNbBjBt1vECQBNFcBaMRSSXN+0GJcYdariyAU0EZpi5uhgMQHUjZIv07M4zobXaZGzsqGWsjg0Ubp85wyKyuLy2yKz28+YuYeS6HL7tFToa1uFcHm3aK4RWc4WpWyOAGrgpsoy4OOlyu3SNyhq5PIIFR380KVUNHtyBdbFhwKQQ2hvwnRo8x9btJBYgGfotHyHUYN5hxgFORbDbYp9IRFAgdG+17NRNtTVq4PYsH+2WQkb77o/JWqW6kjZiCk2iQ4TqLlKneOmY9ELAqIoUbgICiw/cRsSn7viUj7Cb6Dy0zSOGmVgjelHFpHzZ3HVTnYoCFzBE7Y2m3b/ckfzq57loM0n3FBjMLBL3e46TUu2NVfX32o5mUxTc2F0Lfnl8qs+eX6XFLzJ3Smwj/mHtyVSnET48yKup3MU5H+tws0Bgsg2drRV+NCl3QqT4IlrpEpJ9fN4Ifmdr3akwIvaNNBPCxuZp8tQbwjg81eI=
+  skip_cleanup: true
   file: ogn-init
   on:
     repo: matburnham/ogn-init
     tags: true
-
