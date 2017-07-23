@@ -3,7 +3,7 @@
 # Debian packages to install
 #
 PACKAGES="
-  xautomation
+  unattended-upgrades
 "
 
 # Remove this file if you want to re-run the setup
@@ -22,20 +22,40 @@ done
 # fail noisily
 ip route get 80.68.80.24 >/dev/null || exit 3
 
-# Install a package or two that we need
+# Update the system and install a package or two that we need
 #
 export DEBIAN_FRONTEND=noninteractive
 apt-get -q update
+apt-get -q -y dist-upgrade
 apt-get -q -y install $PACKAGES
 
-# Change config to start X & log in (copied from raspi-config)
-#
-ln -fs /etc/systemd/system/autologin@.serve /etc/systemd/system/getty.target.wants/getty@tty1.service
-sed /etc/lightdm/lightdm.conf -i -e \
-  "s/^#autologin-user=.*/autologin-user=pi/"
+# FIXME: For now, grab a specific package from github, really this should be added as
+# an additional repository so that it gets the latest version and updates it as new versions
+# come out
+wget https://github.com/kerel-fs/pkg-rtlsdr-ogn/releases/download/debian%2F0.2.6-1/rtlsdr-ogn_0.2.6-1_armhf.deb
+# Force install regardless of dependencies
+dpkg -i rtlsdr-ogn_0.2.6-1_armhf.deb
+# Force apt-get to fix dependencies
+apt-get -q -y -f install
 
-systemctl set-default graphical.target
+# Make /etc/rtlsdr-ogn.conf available on the SD card
+# Note: this won't be available for the user to edit until the first run is complete
+# which is a bit of a pain if you know what settings you want, but once there's a web admin
+# in place it should be easy to configure once booted anyway
+mv /etc/rtlsdr-ogn.conf /boot/appliance/etc/rtlsdr-ogn.conf
+ln -s /boot/appliance/etc/rtlsdr-ogn.conf /etc/rtlsdr-ogn.conf 
+
+# Configure unattended-upgrades
+# FIXME: configure to update rtlsdr-ogn as well
+sed -i 's/^\/\/      "o=Raspbian,n=jessie"/        "o=Raspbian,n=jessie"/g' /etc/apt/apt.conf.d/50unattended-upgrades
+sed -i 's/^\/\/Unattended-Upgrade::Automatic-Reboot "false";/Unattended-Upgrade::Automatic-Reboot "true";/g' /etc/apt/apt.conf.d/50unattended-upgrades
 
 touch /boot/pi-install.done
 
 exit 0
+
+# TODO install some kind of custom web admin tool to allow basic configuration of OGN
+# -> change password
+# -> configure OGN config
+
+# TODO: run normal resize script

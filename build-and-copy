@@ -10,10 +10,8 @@ export GOPATH=`pwd`
 export GOOS=linux
 export GOARCH=arm
 
-FILES="cmdline.txt pi-init2 appliance"
+FILES="cmdline.txt pi-init2 appliance ssh"
 
 go build -o pi-init2 projects.bytemark.co.uk/pi-init2 && \
-  zip -r release.zip $FILES && \
-  cp -a $FILES /media/$USER/boot && \
-  umount /media/$USER/boot
+  zip -r release.zip $FILES
 
