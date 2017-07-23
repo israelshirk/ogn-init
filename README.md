@@ -14,6 +14,7 @@ From your desktop / laptop:
 
 * Download and write a standard [Raspbian "jessie" SD card](https://www.raspberrypi.org/downloads/raspbian/)
 * Unzip the latest release into the /boot partition
+* Configure appliance/etc/wpa_supplicant/wpa_supplicant.conf for your network (if using a WiFi connection)
 * Remove the SD card and put it into your Pi.
 
 The Raspberry Pi should now boot into a headless Open Glider Network system. The first boot takes a few minutes depending on your network, and which model of Raspberry Pi you use (I tested with a model B).
