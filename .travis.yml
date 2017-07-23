@@ -1,7 +1,6 @@
 language: go
 env:
-- GIMME_OS=linux
-- GIMME_ARCH=arm
+- GIMME_OS=linux GIMME_ARCH=arm
 install:
 - go get -d -v golang.org/x/sys/unix
 script:
