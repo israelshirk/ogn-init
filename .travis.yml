@@ -7,4 +7,4 @@ install:
     - go get -d -v golang.org/x/sys/unix
 
 script:
-    - go build projects.bytemark.co.uk/pi-init2
+    - go build github.com/matburnham/ogn-init/src/projects.bytemark.co.uk/pi-init2
