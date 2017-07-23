@@ -1,4 +1,10 @@
 language: go
 
-before_install:
-- go get golang.org/x/sys/unix
+env:
+    - GIMME_OS=linux GIMME_ARCH=arm
+
+install:
+    - go get -d -v golang.org/x/sys/unix
+
+script:
+    - go build projects.bytemark.co.uk/pi-init2

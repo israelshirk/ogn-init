@@ -9,5 +9,4 @@ release.zip: ogn-init
 	zip -r release.zip ${FILES}
 
 ogn-init:
-	mkdir -p release
-	GOPATH=`pwd` GOOS=linux GOARCH=arm go build -o release/ogn-init projects.bytemark.co.uk/pi-init2
+	GOPATH=`pwd` GOOS=linux GOARCH=arm go build -o ogn-init projects.bytemark.co.uk/pi-init2
