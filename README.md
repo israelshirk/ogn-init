@@ -22,7 +22,7 @@ You can edit these files:
 
 * [appliance/etc/wpa_supplicant/wpa_supplicant.conf](appliance/etc/wpa_supplicant/wpa_supplicant.conf) - for wireless network credentials, if you're using a wireless adapter.
 
-Building pi-init2
+Building ogn-init
 -----------------
 I've included a script called 'build-and-copy' which I use from an Ubuntu system to build the [pi-init2](src/projects.bytemark.co.uk/pi-init2/init.go) program and create a zipfile to copy to the SD card boot partition. Any contributions appreciated.
 
