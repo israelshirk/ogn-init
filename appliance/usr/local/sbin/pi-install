@@ -4,6 +4,8 @@
 #
 PACKAGES="
   unattended-upgrades
+  samba
+  winbind
 "
 
 # Remove this file if you want to re-run the setup
@@ -28,6 +30,9 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get -q update
 apt-get -q -y dist-upgrade
 apt-get -q -y install $PACKAGES
+
+# Advertise hostname on local network. This config file already exists, so add this before installing samba and winbind
+sed -i 's/^hosts:          files /hosts:          files wins /g' /etc/nsswitch.conf
 
 # FIXME: For now, grab a specific package from github, really this should be added as
 # an additional repository so that it gets the latest version and updates it as new versions
