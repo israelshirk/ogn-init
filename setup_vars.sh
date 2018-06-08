@@ -1,0 +1,4 @@
+PACKAGES=""
+LOCALE="en-US.UTF-8"
+TIMEZONE="America/Denver"
+KEYMAP="us"

@@ -1,12 +1,6 @@
 #!/bin/bash -v
 
-# Debian packages to install
-#
-PACKAGES="
-  unattended-upgrades
-  samba
-  winbind
-"
+. /boot/setup_vars.sh
 
 # Remove this file if you want to re-run the setup
 #
@@ -14,53 +8,36 @@ if [ -f /boot/pi-install.done ] ; then
 	exit 0
 fi
 
-
-# I can't get network-online.target to work :-/
-for check in {1..100}
-do
-  ip route get 80.68.80.24 >/dev/null 2>&1 && break
-  sleep 1
-done
-# fail noisily
-ip route get 80.68.80.24 >/dev/null || exit 3
-
 # Update the system and install a package or two that we need
 #
 export DEBIAN_FRONTEND=noninteractive
 apt-get -q update
 apt-get -q -y dist-upgrade
-apt-get -q -y install $PACKAGES
-
-# Advertise hostname on local network. This config file already exists, so add this before installing samba and winbind
-sed -i 's/^hosts:          files /hosts:          files wins /g' /etc/nsswitch.conf
-
-# FIXME: For now, grab a specific package from github, really this should be added as
-# an additional repository so that it gets the latest version and updates it as new versions
-# come out
-wget https://github.com/kerel-fs/pkg-rtlsdr-ogn/releases/download/debian%2F0.2.6-1/rtlsdr-ogn_0.2.6-1_armhf.deb
-# Force install regardless of dependencies
-dpkg -i rtlsdr-ogn_0.2.6-1_armhf.deb
-# Force apt-get to fix dependencies
-apt-get -q -y -f install
-
-# Make /etc/rtlsdr-ogn.conf available on the SD card
-# Note: this won't be available for the user to edit until the first run is complete
-# which is a bit of a pain if you know what settings you want, but once there's a web admin
-# in place it should be easy to configure once booted anyway
-mv /etc/rtlsdr-ogn.conf /boot/appliance/etc/rtlsdr-ogn.conf
-ln -s /boot/appliance/etc/rtlsdr-ogn.conf /etc/rtlsdr-ogn.conf 
+if [ -n "$PACKAGES" ]; then
+	apt-get -q -y install $PACKAGES
+fi
 
 # Configure unattended-upgrades
 # FIXME: configure to update rtlsdr-ogn as well
 sed -i 's/^\/\/      "o=Raspbian,n=jessie"/        "o=Raspbian,n=jessie"/g' /etc/apt/apt.conf.d/50unattended-upgrades
 sed -i 's/^\/\/Unattended-Upgrade::Automatic-Reboot "false";/Unattended-Upgrade::Automatic-Reboot "true";/g' /etc/apt/apt.conf.d/50unattended-upgrades
 
+raspi-config --expand-rootfs
+sed -i "s/^\s*LANG=\S*/LANG=$LOCALE/" /etc/default/locale
+dpkg-reconfigure -f noninteractive locales
+
+sed -i /etc/default/keyboard -e "s/^XKBLAYOUT.*/XKBLAYOUT=\"$KEYMAP\"/"
+dpkg-reconfigure -f noninteractive keyboard-configuration
+invoke-rc.d keyboard-setup start
+setsid sh -c 'exec setupcon -k --force <> /dev/tty1 >&0 2>&1'
+udevadm trigger --subsystem-match=input --action=change
+
+rm -f /etc/localtime
+echo "$TIMEZONE" > /etc/timezone
+dpkg-reconfigure -f noninteractive tzdata
+
 touch /boot/pi-install.done
 
 exit 0
-
-# TODO install some kind of custom web admin tool to allow basic configuration of OGN
-# -> change password
-# -> configure OGN config
 
 # TODO: run normal resize script

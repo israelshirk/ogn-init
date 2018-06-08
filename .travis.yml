@@ -4,15 +4,16 @@ env:
 install:
 - go get -d -v golang.org/x/sys/unix
 script:
-- go build -o ogn-init github.com/matburnham/ogn-init/src/projects.bytemark.co.uk/pi-init2
+- go build -o pi-init github.com/israelshirk/pi-init/src/projects.bytemark.co.uk/pi-init2
 before_deploy:
-- zip -r ogn-init.zip cmdline.txt ssh ogn-init appliance
+- zip -r pi-init.zip cmdline.txt config.txt setup_vars.sh ssh pi-init appliance
 deploy:
+  branch: master
   provider: releases
   api_key:
-    secure: XEkkC8DdgwZ7cYbo79v2a9KNLtCgJsOtZQXlly18aJvDXQLhj2TmTnd4wphj+iAG8fvLO/ctaqpolbmtQnXXAhVya2+Ky6ppcvLAjUx6py3isu70QzD6dAXcSdTVd8ajC4NNZ60h3DIX6qJR1U87UBhnVrYzOnJVqk2rdhkAkoX9F2tncaTCkqClegVK2eSjAR3YMkNbBjBt1vECQBNFcBaMRSSXN+0GJcYdariyAU0EZpi5uhgMQHUjZIv07M4zobXaZGzsqGWsjg0Ubp85wyKyuLy2yKz28+YuYeS6HL7tFToa1uFcHm3aK4RWc4WpWyOAGrgpsoy4OOlyu3SNyhq5PIIFR380KVUNHtyBdbFhwKQQ2hvwnRo8x9btJBYgGfotHyHUYN5hxgFORbDbYp9IRFAgdG+17NRNtTVq4PYsH+2WQkb77o/JWqW6kjZiCk2iQ4TqLlKneOmY9ELAqIoUbgICiw/cRsSn7viUj7Cb6Dy0zSOGmVgjelHFpHzZ3HVTnYoCFzBE7Y2m3b/ckfzq57loM0n3FBjMLBL3e46TUu2NVfX32o5mUxTc2F0Lfnl8qs+eX6XFLzJ3Smwj/mHtyVSnET48yKup3MU5H+tws0Bgsg2drRV+NCl3QqT4IlrpEpJ9fN4Ifmdr3akwIvaNNBPCxuZp8tQbwjg81eI=
+    secure: "01ENvC7Ym21JiuSM0rhleIAHD77Vz8jehPuLUKGo2bdev5F3d5mC6XM/Dt+JMxXphk3doX9EhBpK68ca8LuAaiRGPIjSmPzv9hFZaxlU2x7SQ4Q1sz64Kv7gPdH3SAn4wAkxaRXs57X6GXw6/v3oB+EMAXqeGXYFEYp9vg5q8yIE+BSZVSitbatyvniimNucVGTiNXrZE2hsA91ZHEhmmhChEnybj1P6E8LeOCSVcs61BjU9Qamj+cLB6dYQf2ToIt8fZVBYnflvrujkhjizG40nHyF2ZSIm+gD5G10+JI9MdnZ3oODEg+zXV6Gs6A0gjvO4p6+YUaGpYrzHWAW0C+hkwb+8vkrfa2Zs5bwdrw6CJEjrqBht9bQx//BobziFVO/mDvX9Hru/DT7Aj636Hnvkj0D1mt3C+ubKvO+69JVeP1wnMK4c3PlT5AcW+Qb0ERAKlIkRmfQ8LRQPTwyyl4hrgBUoZIQgNzxe5rofWC/w6gPpZIcLMhiuJoWwFXvtUE9W8V1AQ5K0kmEMwHbdZ90WPUZ9CyLMHWu9nfYMeMw1UmlpUGVjEQ2lFQ6DMQIXXEXePbvYEJv4UIzPPCz3g1xZIgx8A+vqryw3k7j+GESzo0LwovKur3YeLArIyZvFsCuRuwlzPe+ILU6pG3Kan+aHyyxy+IWNUTB1uof59nY="
   skip_cleanup: true
-  file: ogn-init.zip
+  file: pi-init.zip
   on:
-    repo: matburnham/ogn-init
+    repo: israelshirk/pi-init
     tags: true
