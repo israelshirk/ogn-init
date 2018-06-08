@@ -38,6 +38,8 @@ dpkg-reconfigure -f noninteractive tzdata
 
 touch /boot/pi-install.done
 
+systemctl enable arducopter
+
 exit 0
 
 # TODO: run normal resize script
